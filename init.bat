@@ -1,0 +1,1 @@
+msedge --remote-debugging-port=9222 --user-data-dir="C:\Users\ezqda\AppData\Local\Microsoft\Edge\User Data\Default" --no-first-run
