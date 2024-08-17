@@ -97,6 +97,7 @@ def scrape_data(driver, fechas, nombre_archivo_alq):
         df_previo = pd.read_csv(nombre, sep=";")
         #skip the links that are already in the file
         links = [x for x in links if x not in df_previo['site'].tolist()]
+    links = links[500:]
     print(len(links))
     for i, site in enumerate(links):  # Iterate through the links
         driver.get(str(site))
@@ -167,6 +168,7 @@ def scrape_data(driver, fechas, nombre_archivo_alq):
 
         print('Aviso:', i, 'link:', site)
 
+        data = []
         data.append({
             'site': site.strip(),
             'obj1': normalizar_string(obj1),

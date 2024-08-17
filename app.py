@@ -13,37 +13,40 @@ load_dotenv()
 URL_DEP_ALQUILERES = os.getenv("URL_DEP_ALQUILERES")
 URL_DEP_VENTAS = os.getenv("URL_DEP_VENTAS")
 
-segmento = "alq"
+segmento = "venta"
 
 numero_alto = 10000
-fechas = (datetime.today() - timedelta(days=7)).strftime("%d%m%y") + "-" + datetime.today().strftime("%d%m%y")
+fechas = '020824-090824'#(datetime.today() - timedelta(days=7)).strftime("%d%m%y") + "-" + datetime.today().strftime("%d%m%y")
 nombre_archivo = f'links_compilados/links_{segmento}_{fechas}.csv'
 
 browser_dep_alq = Browser()
 
 if segmento == "alq":
-    inicio, cant_pags = setear_cantidad_paginas(browser_dep_alq, URL_DEP_ALQUILERES, numero_alto, segmento, fechas)
-    print("Cant_pags", inicio, cant_pags)
+    if os.path.exists(nombre_archivo):
+        scrape_data(browser_dep_alq, fechas, nombre_archivo)
+    else:
+        inicio, cant_pags = setear_cantidad_paginas(browser_dep_alq, URL_DEP_ALQUILERES, numero_alto, segmento, fechas)
+        print("Cant_pags", inicio, cant_pags)
 
-    leer_y_guardar_pags(URL_DEP_ALQUILERES, browser_dep_alq, cant_pags, segmento, fechas, inicio)
+        leer_y_guardar_pags(URL_DEP_ALQUILERES, browser_dep_alq, cant_pags, segmento, fechas, inicio)
 
-    print("obteniendo links de las páginas")
-    #listar_links_en_paginas(nombre_archivo, segmento, fechas)
-    input("Links Obtenidos") # Para que el usuario pueda ver la cantidad de páginas y decidir si continuar o no
+        print("obteniendo links de las páginas")
+        listar_links_en_paginas(nombre_archivo, segmento, fechas)
+        input("Links Obtenidos") # Para que el usuario pueda ver la cantidad de páginas y decidir si continuar o no
 
 
-    scrape_data(browser_dep_alq, fechas, nombre_archivo)
+        scrape_data(browser_dep_alq, fechas, nombre_archivo)
 
-    browser_dep_alq.driver.quit()
+        browser_dep_alq.driver.quit()
     
 elif segmento == 'venta':
     inicio, cant_pags = setear_cantidad_paginas(browser_dep_alq, URL_DEP_VENTAS, numero_alto, segmento, fechas)
     print("Cant_pags", inicio, cant_pags)
 
-    leer_y_guardar_pags(URL_DEP_VENTAS, browser_dep_alq, cant_pags, segmento, fechas, inicio)
+    #leer_y_guardar_pags(URL_DEP_VENTAS, browser_dep_alq, cant_pags, segmento, fechas, inicio)
 
     print("obteniendo links de las páginas")
-    listar_links_en_paginas(nombre_archivo, segmento, fechas)
+    #listar_links_en_paginas(nombre_archivo, segmento, fechas)
     input("Links Obtenidos") # Para que el usuario pueda ver la cantidad de páginas y decidir si continuar o no
 
 
